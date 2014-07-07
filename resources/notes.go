@@ -414,54 +414,6 @@ type Android struct {
 	Model string
 }
 
-// Interfaces
-// Interface is created using the type keyword, followed by a name and the keyword interface
-// But instead of defining fields, we define a “method set”
-// Method set is a list of methods that a type must have in order to “implement” the interface
-
-type Shape interface {
-	area() float64
-}
-
-// Concurrency
-// Making progress on more than one task simultaneously is known as concurrency
-// Go has rich support for concurrency using goroutines and channels
-// A goroutine is a function that is capable of running concurrently with other functions.
-//
-// To create a goroutine we use the keyword go followed by a function invocation
-
-func fx(n int) {
-	for i := 0; i < 10; i++ {
-		fmt.Println(n, "::", i)
-	}
-}
-
-func fx2(n int) {
-	for i := 0; i < 10; i++ {
-		fmt.Println(n, ":", i)
-		amt := time.Duration(rand.Intn(250))
-		time.Sleep(time.Millisecond * amt)
-	}
-}
-
-// This program consists of two goroutines
-// 	- The first goroutine is implicit and is the goRoutineExample function
-// 	- The second goroutine is created when we call go f(0)
-// Normally when we invoke a function our program will execute all the statements in a function and then return to the next line following the invocation.
-// * With a goroutine we return immediately to the next line and don't wait for the function to complete
-// WITHOUT the Scanln the program would just exit without finishing
-func goRoutineExample() {
-	go fx(0)
-	for i := 0; i < 10; i++ {
-		go fx2(i)
-	}
-	// var input string
-	// fmt.Scanln(&input)
-}
-
-// Channels
-// Channels provide a way for two goroutines to communicate with one another and synchronize their execution
-
 func thirdPart() {
 	fmt.Println(os.Open("readme.txt"))
 	fmt.Println("My favorite number is", rand.Intn(100))
@@ -472,18 +424,16 @@ func main() {
 	// It runs at the end of everything else!
 	// Argument to go/defer must be function call
 	a := func() {
-		fmt.Println("Lets see when defer works. It works at the end!")
+		fmt.Println("Lets see when defer works")
 	}
 	defer a()
 
 	// Run the other stuff
 	firstPart()
-	goRoutineExample()
 	closureExample()
 	deferExample()
 	panicExample()
 	pointerExample()
 	newExample()
 	structExample()
-
 }
