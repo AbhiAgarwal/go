@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Go-specific things
 
 - Slices
