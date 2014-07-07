@@ -277,12 +277,59 @@ func closureExample() {
 	fmt.Print(nextEven(), " \n") // 4
 }
 
+// defer: schedules a function call to be run after the function completes.
+// defer is often used when resources need to be freed in some way.
+// - deferred functions are run even if a run-time panic occurs
+func deferExample() {
+	a := func() {
+		fmt.Println("a")
+	}
+	b := func() {
+		fmt.Println("b")
+	}
+	defer b()
+	a()
+}
+
+// Panic - function to cause a run time error
+// Recover
+// 	- handle a run-time panic with the built-in recover function
+// 	- recover stops the panic and returns the value that was passed to the call to panic
+// A panic generally indicates a programmer error
+// 	- for example attempting to access an index of an array that's out of bounds, forgetting to initialize a map, etc.
+// 	- or an exceptional condition that there's no easy way to recover from.
+func panicExample() {
+	/*
+		Here the call to recover will never happen in this case because the call to panic immediately stops execution of the function
+			panic("PANIC")
+			str := recover()
+			fmt.Println(str, "x")
+	*/
+
+	defer func() {
+		str := recover()
+		fmt.Println("Panic cause:", str)
+	}()
+	panic("PANIC")
+}
+
 func thirdPart() {
 	fmt.Println(os.Open("readme.txt"))
 	fmt.Println("My favorite number is", rand.Intn(100))
 }
 
 func main() {
+	// Lets see defer!
+	// It runs at the end of everything else!
+	// Argument to go/defer must be function call
+	a := func() {
+		fmt.Println("Lets see when defer works")
+	}
+	defer a()
+
+	// Run the other stuff
 	firstPart()
 	closureExample()
+	deferExample()
+	panicExample()
 }
