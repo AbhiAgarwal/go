@@ -1,3 +1,8 @@
+/* My Go Notes
+Sources
+	- http://www.golang-book.com
+*/
+
 // Every Go program must start with a package declaration. Packages are Go's way of organizing and reusing code.
 package main
 
@@ -452,15 +457,109 @@ func fx2(n int) {
 // WITHOUT the Scanln the program would just exit without finishing
 func goRoutineExample() {
 	go fx(0)
-	for i := 0; i < 10; i++ {
-		go fx2(i)
-	}
+	// for i := 0; i < 10; i++ {
+	// 	go fx2(i)
+	// }
 	// var input string
 	// fmt.Scanln(&input)
 }
 
 // Channels
 // Channels provide a way for two goroutines to communicate with one another and synchronize their execution
+// Normally channels are synchronous; both sides of the channel will wait until the other side is ready.
+// A channel type is represented with the keyword chan followed by the type of the things that are passed on the channel (in this case we are passing strings)
+// The <- (left arrow) operator is used to send and receive messages on the channel.
+// c <- "ping" means send
+// "ping". msg := <- c means receive a message and store it in msg.
+
+func pinger(c chan string) {
+	for i := 0; ; i++ {
+		// send
+		c <- "ping"
+	}
+}
+
+// Using a channel like this synchronizes the two goroutines
+// When pinger attempts to send a message on the channel it will wait until printer is ready to receive the message.
+// 	- known as blocking
+
+func ponger(c chan string) {
+	for i := 0; ; i++ {
+		c <- "pong"
+	}
+}
+
+func printer(c chan string) {
+	for {
+		// means receive a message and store it in msg
+		msg := <-c
+		// Or fmt.Println(<-c)
+		fmt.Println(msg)
+		time.Sleep(time.Second * 1) // or would go out of control
+	}
+}
+
+func channelExample() {
+	var c chan string = make(chan string)
+	go pinger(c)
+	// The program will now take turns printing “ping” and “pong”.
+	/* because of this -> */ go ponger(c)
+	go printer(c)
+
+	var input string
+	fmt.Scanln(&input)
+}
+
+// Channel Direction
+// We can specify a direction on a channel type thus restricting it to either sending or receiving.
+// For example pinger's function signature can be changed to this:
+// 	- func pinger(c chan<- string)
+// 		- Now c can only be sent to.
+// 	- func printer(c <-chan string)
+// 		- Now c can only send
+// 	- A channel that doesn't have these restrictions is known as bi-directional
+// 		- A bi-directional channel can be passed to a function that takes send-only or receive-only channels, but the reverse is not true.
+
+// Select statement (like switch) for Channels
+func selectExample() {
+	c1 := make(chan string)
+	c2 := make(chan string)
+
+	go func() {
+		for {
+			c1 <- "from 1"
+			time.Sleep(time.Second * 2)
+		}
+	}()
+	go func() {
+		for {
+			c2 <- "from 2"
+			time.Sleep(time.Second * 3)
+		}
+	}()
+	go func() {
+		for {
+			select {
+			case msg1 := <-c1:
+				fmt.Println("Message 1", msg1)
+			case msg2 := <-c2:
+				fmt.Println("Message 2", msg2)
+			case <-time.After(time.Second):
+				fmt.Println("timeout")
+			}
+		}
+	}()
+
+	var input string
+	fmt.Scanln(&input)
+}
+
+// It's also possible to pass a second parameter to the make function when creating a channel
+// This creates a buffered channel with a capacity of 1.
+// A buffered channel is asynchronous; sending or receiving a message will not wait unless the channel is already full.
+func bufferedChannelExample() {
+	c := make(chan int, 1)
+}
 
 func thirdPart() {
 	fmt.Println(os.Open("readme.txt"))
@@ -477,13 +576,14 @@ func main() {
 	defer a()
 
 	// Run the other stuff
-	firstPart()
-	goRoutineExample()
-	closureExample()
-	deferExample()
-	panicExample()
-	pointerExample()
-	newExample()
-	structExample()
-
+	//firstPart()
+	//goRoutineExample()
+	//closureExample()
+	//deferExample()
+	//panicExample()
+	//pointerExample()
+	//newExample()
+	//structExample()
+	//channelExample()
+	selectExample()
 }

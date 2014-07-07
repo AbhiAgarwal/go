@@ -13,6 +13,8 @@
 - Embedded Types, and anonymous fields
 - Interfaces, and “method set[s]”
 - Concurrency, and Goroutines and channels
+    - Select (like switch) statement for channel
+    - Buffered Channels
 
 # Things I don't understand well yet
 
