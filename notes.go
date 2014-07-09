@@ -13,6 +13,9 @@ import (
 	"math/rand"
 	"os"
 	"time"
+	"strings"
+	"bytes"
+	"io/ioutil"
 )
 
 func firstPart() {
@@ -569,12 +572,95 @@ func bufferedChannelExample() {
 	c <- 1
 }
 
+// Go includes a large number of functions to work with strings in the strings package
 func understandString() {
-
+	strings.Contains("test", "es")
+	strings.Count("test", "t")
+	strings.HasPrefix("test", "te")
+	strings.HasSuffix("test", "st")
+	strings.Index("test", "e")
+	strings.Join([]string{"a", "b"}, "-")
+	strings.Repeat("a", 5)
+	strings.Replace("aaaa", "a", "b", 2)
+	strings.Split("a-b-c-d-e", "-")
+	strings.ToLower("TEST")
+	strings.ToUpper("test")
 }
 
-func thirdPart() {
-	fmt.Println(os.Open("readme.txt"))
+// Input Output
+// The io package consists of a few functions, but mostly interfaces used in other packages. The two main interfaces are Reader and Writer.
+// Readers support reading via the Read method.
+// Writers support writing via the Write method.
+// Many functions in Go take Readers or Writers as arguments.
+// For example the io package has a Copy function which copies data from a Reader to a Writer
+
+// To convert a string to a slice of bytes (and vice-versa)
+func stringandBytes(){
+	arr := []byte("test")
+	fmt.Println(arr)
+	str := string([]byte{'t','e','s','t'})
+	fmt.Println(str)
+}
+
+// To read or write to a []byte or a string you can use the Buffer struct found in the bytes package
+// A Buffer doesn't have to be initialized and supports both the Reader and Writer interfaces.
+// You can convert it into a []byte by calling buf.Bytes()
+// If you only need to read from a string you can also use the strings.
+// 	- NewReader function which is more efficient than using a buffer.
+func understandBuffer(){
+	var buf bytes.Buffer
+	buf.Write([]byte("test"))
+	fmt.Println("Buffer to Bytes:", buf.Bytes())
+	fmt.Println("Buffer to String:", string(buf.Bytes()))
+}
+
+// Files & Folders
+// We use defer file.Close() right after opening the file to make sure the file is closed as soon as the function completes.
+func filesandFolders() {
+	// Load file
+	file, err := os.Open("resources/readme.txt")
+	defer file.Close()
+	if err != nil {
+        return
+    }
+
+    // File size
+    stat, err := file.Stat()
+    if err != nil {
+        return
+    }
+
+    // Read file
+    bs := make([]byte, stat.Size())
+    _, err = file.Read(bs)
+    if err != nil {
+        return
+    }
+
+    // Print string
+    str := string(bs)
+    fmt.Println("Contents", "\"" + str + "\"")
+}
+
+func simplerReadFile() {
+	bs, err := ioutil.ReadFile("resources/readme.txt")
+    if err != nil {
+        return
+    }
+    str := string(bs)
+    fmt.Println(str)
+}
+
+func simplercreateFile() {
+	file, err := os.Create("resources/writtenREADME.txt")
+    if err != nil {
+        return
+    }
+    defer file.Close()
+    file.WriteString("test")
+}
+
+func randomExample() {
 	fmt.Println("My favorite number is", rand.Intn(100))
 }
 
@@ -582,12 +668,14 @@ func main() {
 	// Lets see defer!
 	// It runs at the end of everything else!
 	// Argument to go/defer must be function call
-	a := func() {
-		fmt.Println("Lets see when defer works. It works at the end!")
-	}
-	defer a()
+	/*
+		a := func() {
+			fmt.Println("Lets see when defer works. It works at the end!")
+		}
+		defer a()
+	*/
 
-	// Run the other stuff
+	//Run the other stuff
 	//firstPart()
 	//goRoutineExample()
 	//closureExample()
@@ -597,5 +685,11 @@ func main() {
 	//newExample()
 	//structExample()
 	//channelExample()
-	// selectExample()
+	//selectExample()
+	//understandString()
+	//stringandBytes()
+	//understandBuffer()
+	//filesandFolders()
+	//simplerReadFile()
+	//simplercreateFile()
 }
