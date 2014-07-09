@@ -12,7 +12,6 @@ func hello(ctx *web.Context, val string) {
 }
 
 func main() {
-    //web.Get("/(.*)", hello)
-    web.Post("/(.*)", hello)
+    web.Get("/(.*)", hello)
     web.Run("0.0.0.0:9999")
 }

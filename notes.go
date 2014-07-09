@@ -569,6 +569,10 @@ func bufferedChannelExample() {
 	c <- 1
 }
 
+func understandString() {
+
+}
+
 func thirdPart() {
 	fmt.Println(os.Open("readme.txt"))
 	fmt.Println("My favorite number is", rand.Intn(100))
