@@ -1,6 +1,7 @@
 /* My Go Notes
 Sources
 	- http://www.golang-book.com
+	- http://talks.golang.org/2012/10things.slide
 */
 
 // Every Go program must start with a package declaration. Packages are Go's way of organizing and reusing code.
@@ -358,6 +359,12 @@ type Circle struct {
 	x, y, r float64
 }
 
+// Anonymous structs do exist
+var config struct {
+	key  string
+	name string
+}
+
 // Struct methods
 // This function will be then accessible by
 // structInstance.area()
@@ -559,6 +566,7 @@ func selectExample() {
 // A buffered channel is asynchronous; sending or receiving a message will not wait unless the channel is already full.
 func bufferedChannelExample() {
 	c := make(chan int, 1)
+	c <- 1
 }
 
 func thirdPart() {
@@ -585,5 +593,5 @@ func main() {
 	//newExample()
 	//structExample()
 	//channelExample()
-	selectExample()
+	// selectExample()
 }
