@@ -16,6 +16,7 @@ import (
 	"strings"
 	"bytes"
 	"io/ioutil"
+	"errors"
 )
 
 func firstPart() {
@@ -611,7 +612,19 @@ func understandBuffer(){
 	var buf bytes.Buffer
 	buf.Write([]byte("test"))
 	fmt.Println("Buffer to Bytes:", buf.Bytes())
+
+	// More easily
 	fmt.Println("Buffer to String:", string(buf.Bytes()))
+	fmt.Println("Buffer to String()", buf.String())
+}
+
+// http://stackoverflow.com/questions/1760757/how-to-efficiently-concatenate-strings-in-go
+func stringConcatenate() {
+	var buffer bytes.Buffer
+    for i := 0; i < 1000; i++ {
+        buffer.WriteString("a")
+    }
+    fmt.Println(buffer.String())
 }
 
 // Files & Folders
@@ -660,6 +673,13 @@ func simplercreateFile() {
     file.WriteString("test")
 }
 
+func errorType() {
+	err := errors.New("error message")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 func randomExample() {
 	fmt.Println("My favorite number is", rand.Intn(100))
 }
@@ -692,4 +712,5 @@ func main() {
 	//filesandFolders()
 	//simplerReadFile()
 	//simplercreateFile()
+	errorType()
 }

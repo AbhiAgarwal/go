@@ -15,6 +15,7 @@
 - Concurrency, and Goroutines and channels
     - Select (like switch) statement for channel
     - Buffered Channels
+- Error type
 
 # Things I don't understand well yet
 
