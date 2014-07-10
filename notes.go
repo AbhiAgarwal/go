@@ -17,6 +17,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"errors"
+	"container/list"
 )
 
 func firstPart() {
@@ -680,6 +681,21 @@ func errorType() {
 	}
 }
 
+// The container/list package implements a doubly-linked list.
+// Each node of the list contains a value and a pointer to the next node.
+// Since this is a doubly-linked list each node will also have pointers to the previous node.
+func listExample() {
+	var x list.List
+    x.PushBack(1)
+    x.PushBack(2)
+    x.PushBack(3)
+
+    e := x.Front();
+    for e != nil; e = e.Next() {
+        fmt.Println(e.Value.(int))
+    }
+}
+
 func randomExample() {
 	fmt.Println("My favorite number is", rand.Intn(100))
 }
@@ -712,5 +728,6 @@ func main() {
 	//filesandFolders()
 	//simplerReadFile()
 	//simplercreateFile()
-	errorType()
+	//errorType()
+	listExample()
 }
