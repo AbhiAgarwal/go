@@ -10,6 +10,8 @@
     - Parallelism is having 2 tasks execute simultaneously, not just having 2 things
         - which is what can happen in concurrency.
 
+- Hashes are frequently used in programming for everything from looking up data to easily detecting changes.
+
 - argument to go/defer must be function call
 
 ```go

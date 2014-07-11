@@ -15,7 +15,9 @@
 - Concurrency, and Goroutines and channels
     - Select (like switch) statement for channel
     - Buffered Channels
-- Error type
+- Error Handling in Go is IMPORTANT
+    - Error type
+- Declaring your own type `type Fame []int`
 
 # Things I don't understand well yet
 

@@ -18,6 +18,9 @@ import (
 	"io/ioutil"
 	"errors"
 	"container/list"
+	"sort"
+	"hash/crc32"
+	"crypto/sha1"
 )
 
 func firstPart() {
@@ -684,16 +687,98 @@ func errorType() {
 // The container/list package implements a doubly-linked list.
 // Each node of the list contains a value and a pointer to the next node.
 // Since this is a doubly-linked list each node will also have pointers to the previous node.
+// The zero value for a List is an empty list
+// 	- a *List can also be created using list.New
+// * Values are appended to the list using PushBack.
+// We loop over each item in the list by getting the first element, and following all the links until we reach nil.
+//
+// http://stackoverflow.com/questions/21326109/why-are-lists-used-infrequently-in-golang
 func listExample() {
 	var x list.List
     x.PushBack(1)
     x.PushBack(2)
     x.PushBack(3)
 
-    e := x.Front();
-    for e != nil; e = e.Next() {
+    for e := x.Front(); e != nil; e = e.Next() {
         fmt.Println(e.Value.(int))
     }
+}
+
+// Sorting a Dataset example
+// Sorting arbitrary data
+// Here we're sorting by the Age.
+// The Sort function in sort takes a sort.Interface and sorts it.
+// To define our own sort we create a new type (ByName) and make it equivalent to a slice of what we want to sort.
+//
+// The sort.Interface requires 3 methods: Len, Less and Swap.
+// To sort we need the functions:
+// Len(), Less(), Swap()
+// Then we use the sort.Sort() function
+
+type Human struct {
+    Name string
+    Age int
+}
+
+type ByName []Human
+
+func (this ByName) Len() int {
+    return len(this)
+}
+
+func (this ByName) Less(i, j int) bool {
+    return this[i].Age < this[j].Age
+}
+
+func (this ByName) Swap(i, j int) {
+    this[i], this[j] = this[j], this[i]
+}
+
+func sortExample() {
+	kids := []Human{
+        {"Jill", 10},
+        {"Jack", 9},
+    }
+    sort.Sort(ByName(kids))
+    fmt.Println(kids)
+}
+
+// Hashes & Cryptography
+//
+// Different libraries -> crypto vs hash
+//
+// A hash function takes a set of data and reduces it to a smaller fixed size.
+// Hashes are frequently used in programming for everything from looking up data to easily detecting changes.
+// In Go there are 2 categories: cryptographic and non-cryptographic
+func crc32Example() {
+	// The non-cryptographic hash functions:
+	// 	- adler32, crc32, crc64 and fnv
+	// For: Cyclic redundancy checks, checksum functions
+	// This one is using crc32
+
+	// crc32 IS USED to compare 2 files
+	// The crc32 hash object implements the Writer interface, so we can write bytes to it like any other Writer.
+	// Once we've written everything we want we call Sum32() to return a uint32
+	// A common use for crc32 is to compare two files.
+	// If the Sum32 value for both files is the same, it's highly likely (though not 100% certain) that the files are the same.
+
+	h := crc32.NewIEEE()
+    h.Write([]byte("test"))
+    v := h.Sum32()
+    fmt.Println(v)
+}
+
+// Cryptographic hash functions are similar to their non-cryptographic counterparts, but they have the added property of being hard to reverse.
+// Given the cryptographic hash of a set of data, it's extremely difficult to determine what made the hash.
+// 	- These hashes are often used in security applications.
+
+// The main difference is that whereas crc32 computes a 32 bit hash, sha1 computes a 160 bit hash.
+// There is no native type to represent a 160 bit number, so we use a slice of 20 bytes instead.
+func sha1Example() {
+	h := sha1.New()
+    h.Write([]byte("test"))
+    bs := h.Sum([]byte{})
+    fmt.Println(bs)
 }
 
 func randomExample() {
@@ -729,5 +814,8 @@ func main() {
 	//simplerReadFile()
 	//simplercreateFile()
 	//errorType()
-	listExample()
+	//listExample()
+	//sortExample()
+	//crc32Example()
+	sha1Example()
 }
