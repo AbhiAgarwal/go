@@ -12,6 +12,8 @@
 
 - Hashes are frequently used in programming for everything from looking up data to easily detecting changes.
 
+- _ (blank) is a special name of variable, any value that is given to it will be ignored.
+
 - argument to go/defer must be function call
 
 ```go

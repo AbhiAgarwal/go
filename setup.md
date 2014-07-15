@@ -8,11 +8,11 @@ Setting up go is easy, but sometimes it gets a little tricky if you're not used 
 `mkdir ~/go`
 `export GOPATH=~/go`
 
-- Go commands all rely on one important environment variable which is called $GOPATH.
-- Notice that this is not the $GOROOT where Go is installed.
+- Go commands all rely on one important environment variable which is called `$GOPATH`.
+- Notice that this is not the `$GOROOT` where Go is installed.
 - This variable points to the workspace of Go in your computer.
-- In Windows, you need to create a new environment variable called GOPATH, then set its value to c:\mygo
-- It is OK to have more than one path(workspace) in $GOPATH, but remember that you have to use `:`, and `;` in Windows to break up them.
+- In Windows, you need to create a new environment variable called `GOPATH`, then set its value to `C:\mygo`
+- It is OK to have more than one path(workspace) in `$GOPATH`, but remember that you have to use `:`, and `;` in Windows to break up them.
 
 **In $GOPATH, you must have three folders as follows:**
 

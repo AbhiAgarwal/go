@@ -1,3 +1,5 @@
+Notes for some presentations on Go to beginners. 
+
 # Go-specific things
 
 - Slices

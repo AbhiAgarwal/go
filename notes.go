@@ -8,19 +8,19 @@ Sources
 package main
 
 import (
+	"bytes"
+	"container/list"
+	"crypto/sha1"
+	"errors"
 	"fmt"
+	"hash/crc32"
+	"io/ioutil"
 	"math"
 	"math/rand"
 	"os"
-	"time"
-	"strings"
-	"bytes"
-	"io/ioutil"
-	"errors"
-	"container/list"
 	"sort"
-	"hash/crc32"
-	"crypto/sha1"
+	"strings"
+	"time"
 )
 
 func firstPart() {
@@ -600,10 +600,10 @@ func understandString() {
 // For example the io package has a Copy function which copies data from a Reader to a Writer
 
 // To convert a string to a slice of bytes (and vice-versa)
-func stringandBytes(){
+func stringandBytes() {
 	arr := []byte("test")
 	fmt.Println(arr)
-	str := string([]byte{'t','e','s','t'})
+	str := string([]byte{'t', 'e', 's', 't'})
 	fmt.Println(str)
 }
 
@@ -612,7 +612,7 @@ func stringandBytes(){
 // You can convert it into a []byte by calling buf.Bytes()
 // If you only need to read from a string you can also use the strings.
 // 	- NewReader function which is more efficient than using a buffer.
-func understandBuffer(){
+func understandBuffer() {
 	var buf bytes.Buffer
 	buf.Write([]byte("test"))
 	fmt.Println("Buffer to Bytes:", buf.Bytes())
@@ -625,10 +625,10 @@ func understandBuffer(){
 // http://stackoverflow.com/questions/1760757/how-to-efficiently-concatenate-strings-in-go
 func stringConcatenate() {
 	var buffer bytes.Buffer
-    for i := 0; i < 1000; i++ {
-        buffer.WriteString("a")
-    }
-    fmt.Println(buffer.String())
+	for i := 0; i < 1000; i++ {
+		buffer.WriteString("a")
+	}
+	fmt.Println(buffer.String())
 }
 
 // Files & Folders
@@ -638,43 +638,43 @@ func filesandFolders() {
 	file, err := os.Open("resources/readme.txt")
 	defer file.Close()
 	if err != nil {
-        return
-    }
+		return
+	}
 
-    // File size
-    stat, err := file.Stat()
-    if err != nil {
-        return
-    }
+	// File size
+	stat, err := file.Stat()
+	if err != nil {
+		return
+	}
 
-    // Read file
-    bs := make([]byte, stat.Size())
-    _, err = file.Read(bs)
-    if err != nil {
-        return
-    }
+	// Read file
+	bs := make([]byte, stat.Size())
+	_, err = file.Read(bs)
+	if err != nil {
+		return
+	}
 
-    // Print string
-    str := string(bs)
-    fmt.Println("Contents", "\"" + str + "\"")
+	// Print string
+	str := string(bs)
+	fmt.Println("Contents", "\""+str+"\"")
 }
 
 func simplerReadFile() {
 	bs, err := ioutil.ReadFile("resources/readme.txt")
-    if err != nil {
-        return
-    }
-    str := string(bs)
-    fmt.Println(str)
+	if err != nil {
+		return
+	}
+	str := string(bs)
+	fmt.Println(str)
 }
 
 func simplercreateFile() {
 	file, err := os.Create("resources/writtenREADME.txt")
-    if err != nil {
-        return
-    }
-    defer file.Close()
-    file.WriteString("test")
+	if err != nil {
+		return
+	}
+	defer file.Close()
+	file.WriteString("test")
 }
 
 func errorType() {
@@ -695,13 +695,13 @@ func errorType() {
 // http://stackoverflow.com/questions/21326109/why-are-lists-used-infrequently-in-golang
 func listExample() {
 	var x list.List
-    x.PushBack(1)
-    x.PushBack(2)
-    x.PushBack(3)
+	x.PushBack(1)
+	x.PushBack(2)
+	x.PushBack(3)
 
-    for e := x.Front(); e != nil; e = e.Next() {
-        fmt.Println(e.Value.(int))
-    }
+	for e := x.Front(); e != nil; e = e.Next() {
+		fmt.Println(e.Value.(int))
+	}
 }
 
 // Sorting a Dataset example
@@ -716,31 +716,31 @@ func listExample() {
 // Then we use the sort.Sort() function
 
 type Human struct {
-    Name string
-    Age int
+	Name string
+	Age  int
 }
 
 type ByName []Human
 
 func (this ByName) Len() int {
-    return len(this)
+	return len(this)
 }
 
 func (this ByName) Less(i, j int) bool {
-    return this[i].Age < this[j].Age
+	return this[i].Age < this[j].Age
 }
 
 func (this ByName) Swap(i, j int) {
-    this[i], this[j] = this[j], this[i]
+	this[i], this[j] = this[j], this[i]
 }
 
 func sortExample() {
 	kids := []Human{
-        {"Jill", 10},
-        {"Jack", 9},
-    }
-    sort.Sort(ByName(kids))
-    fmt.Println(kids)
+		{"Jill", 10},
+		{"Jack", 9},
+	}
+	sort.Sort(ByName(kids))
+	fmt.Println(kids)
 }
 
 // Hashes & Cryptography
@@ -763,9 +763,9 @@ func crc32Example() {
 	// If the Sum32 value for both files is the same, it's highly likely (though not 100% certain) that the files are the same.
 
 	h := crc32.NewIEEE()
-    h.Write([]byte("test"))
-    v := h.Sum32()
-    fmt.Println(v)
+	h.Write([]byte("test"))
+	v := h.Sum32()
+	fmt.Println(v)
 }
 
 // Cryptographic hash functions are similar to their non-cryptographic counterparts, but they have the added property of being hard to reverse.
@@ -776,9 +776,9 @@ func crc32Example() {
 // There is no native type to represent a 160 bit number, so we use a slice of 20 bytes instead.
 func sha1Example() {
 	h := sha1.New()
-    h.Write([]byte("test"))
-    bs := h.Sum([]byte{})
-    fmt.Println(bs)
+	h.Write([]byte("test"))
+	bs := h.Sum([]byte{})
+	fmt.Println(bs)
 }
 
 func randomExample() {
@@ -817,5 +817,5 @@ func main() {
 	//listExample()
 	//sortExample()
 	//crc32Example()
-	sha1Example()
+	//sha1Example()
 }

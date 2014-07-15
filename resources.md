@@ -1,8 +1,12 @@
 # Overall Resoures
 
-- - https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md#go
+- https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md#go
 - http://dave.cheney.net/resources-for-new-go-programmers
 - http://gophervids.appspot.com
+
+# Books
+
+- Build Web Application with Golang
 
 # Resources to learn
 
