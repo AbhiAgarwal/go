@@ -24,3 +24,8 @@ Notes for some presentations on Go to beginners.
 # Things I don't understand well yet
 
 - Interfaces, and “method set[s]”
+
+# Reading
+
+- [Go for the paranoid network programmer](http://www.slideshare.net/feyeleanor/go-for-the-paranoid-network-programmer)
+- [Build Web Application with Golang](https://github.com/astaxie/build-web-application-with-golang/tree/master/en)
