@@ -1,5 +1,23 @@
 Notes for some presentations on Go to beginners. 
 
+# Observations
+
+```go
+if err := json.NewEncoder(w).Encode(todos); err != nil {
+    panic(err)
+}
+```
+
+or 
+
+```go
+js := []byte{}
+js, err = json.Marshal(currentBox)
+if err != nil {
+    panic(err)
+}
+```
+
 # Go-specific things
 
 - Slices
